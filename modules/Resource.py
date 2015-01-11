@@ -159,7 +159,10 @@ class xmlDefaultHandler(wx.xrc.XmlResourceHandler):
         # Create IDs
         for id in self.ids:
             setattr(obj, id, XRCID(id))
-            setattr(obj, 'obj_'+id, self.parentwin.FindWindowById(XRCID(id)))
+            item = self.parentwin.FindWindowById(XRCID(id))
+            if None == item:
+                item = obj.FindWindowById(XRCID(id))
+            setattr(obj, 'obj_'+id, item)
 
         # Call object init
         obj.init(*self.args, **self.kwargs)
